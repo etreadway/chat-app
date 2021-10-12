@@ -1,5 +1,23 @@
 {
   "dependencies": {
     "express": "^4.17.1"
-  }
+  },
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/etreadway/chat-app.git"
+  },
+  "author": "Eric Treadway",
+  "bugs": {
+    "url": "https://github.com/etreadway/chat-app/issues"
+  },
+  "homepage": "https://github.com/etreadway/chat-app#readme",
+  "description": ""
 }
