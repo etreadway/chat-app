@@ -1,4 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+import io from "socket.io-client";
+
+const socket = io("http://localhost:5000");
 
 export const ChatApp = () => {
   const [messageList, setMessageList] = useState([
@@ -8,7 +12,7 @@ export const ChatApp = () => {
   const [newMessage, setNewMessage] = useState("");
 
   const listItems = messageList.map((message) => {
-    return <li>{message}</li>;
+    return <li key={Math.random()}>{message}</li>;
   });
 
   const handleNewMessage = (e) => {
@@ -17,10 +21,14 @@ export const ChatApp = () => {
 
   const handleMessageSend = (e) => {
     e.preventDefault();
-    console.log(newMessage);
+
     setMessageList([...messageList, newMessage]);
     setNewMessage("");
   };
+
+  useEffect(() => {
+    socket.on("chat message");
+  }, []);
 
   return (
     <div>
