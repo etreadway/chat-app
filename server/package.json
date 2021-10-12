@@ -1,6 +1,8 @@
 {
   "dependencies": {
-    "express": "^4.17.1"
+
+    "express": "^4.17.1",
+    "socket.io": "^4.2.0"
   },
   "name": "server",
   "version": "1.0.0",
@@ -20,4 +22,5 @@
   },
   "homepage": "https://github.com/etreadway/chat-app#readme",
   "description": ""
+
 }
