@@ -15,8 +15,15 @@ app.get("/", (req, res) => {
 
 io.on("connection", (socket) => {
   console.log("A user has connected");
-  io.on("disconnect", (socket) => {
+
+  socket.on("disconnect", (socket) => {
     console.log("fuck you");
+  });
+
+  socket.send("hello from server");
+
+  socket.on("message", (greeting) => {
+    console.log(greeting);
   });
 });
 
