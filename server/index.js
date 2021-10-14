@@ -10,20 +10,22 @@ const io = require("socket.io")(httpServer, {
 const PORT = process.env.port || 5001;
 
 app.get("/", (req, res) => {
-  res.send("<h1>Hello from express!</h1>");
+  res.send("<h1>HEY!!! YOU SHOULDN'T BE HERE!!!</h1>");
 });
 
 io.on("connection", (socket) => {
   console.log("A user has connected");
 
-  socket.on("disconnect", (socket) => {
-    console.log("fuck you");
+  socket.on("disconnect", () => {
+    console.log("User Disconnected");
   });
 
   socket.send("hello from server");
 
-  socket.on("message", (greeting) => {
-    console.log(greeting);
+  socket.on("newMessage", (msg) => {
+    console.log(msg);
+    //use broadcast to send to all but author
+    socket.broadcast.emit("incoming", msg);
   });
 });
 

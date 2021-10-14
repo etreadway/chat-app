@@ -6,15 +6,19 @@ const socket = io("http://localhost:5001");
 
 export const ChatApp = () => {
   // const socket = io("http://localhost:5001");
-  useEffect(() => {
-    socket.on("connect", () => {
-      socket.send("hello from front end");
-    });
 
-    socket.on("message", (data) => {
-      console.log(data);
-    });
-  }, []);
+  socket.on("connect", () => {
+    socket.send("hello from frontend");
+  });
+
+  socket.on("message", (data) => {
+    console.log(data);
+  });
+
+  socket.on("incoming", (stuff) => {
+    console.log(stuff);
+    setMessageList([...messageList, stuff]);
+  });
 
   const [messageList, setMessageList] = useState([
     "This is a message",
@@ -32,8 +36,9 @@ export const ChatApp = () => {
 
   const handleMessageSend = (e) => {
     e.preventDefault();
+    socket.emit("newMessage", newMessage);
 
-    setMessageList([...messageList, newMessage]);
+    // setMessageList([...messageList, newMessage]);
     setNewMessage("");
   };
 
