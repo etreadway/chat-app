@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import io from "socket.io-client";
 
@@ -9,23 +9,26 @@ const socket = io("http://localhost:5001");
 export const ChatApp = () => {
   // const socket = io("http://localhost:5001");
 
-  socket.on("connect", () => {
-    socket.send("hello from frontend");
-  });
-
-  socket.on("message", (data) => {
-    console.log(data);
-  });
-
-  socket.on("incoming", (stuff) => {
-    console.log(stuff);
-    setMessageList([...messageList, stuff]);
-  });
+  const [incoming, setIncoming] = useState("");
 
   const [messageList, setMessageList] = useState([
     "This is a message",
     "This is another message",
   ]);
+
+  socket.on("incoming", (stuff) => {
+    setIncoming(stuff);
+    // setMessageList([...messageList, stuff]);
+  });
+
+  useEffect(() => {
+    console.log(incoming);
+    setMessageList([...messageList, incoming]);
+    return () => {
+      console.log("new message received");
+    };
+  }, [incoming]);
+
   const [newMessage, setNewMessage] = useState("");
 
   const listItems = messageList.map((message) => {
