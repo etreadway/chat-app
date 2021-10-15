@@ -22,10 +22,10 @@ export const ChatApp = () => {
   });
 
   useEffect(() => {
-    console.log(incoming);
-    setMessageList([...messageList, incoming]);
+    setMessageList([...messageList, incoming.message]);
+
     return () => {
-      console.log("new message received");
+      "Message Sent";
     };
   }, [incoming]);
 

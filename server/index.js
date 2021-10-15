@@ -25,7 +25,8 @@ io.on("connection", (socket) => {
   socket.on("newMessage", (msg) => {
     console.log(msg);
     //use broadcast to send to all but author
-    socket.broadcast.emit("incoming", msg);
+    //id prevents bug with repeat messages
+    socket.broadcast.emit("incoming", { id: Math.random(), message: msg });
   });
 });
 
