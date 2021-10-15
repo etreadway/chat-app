@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import io from "socket.io-client";
+
+import { Message } from "./Message";
 
 const socket = io("http://localhost:5001");
 
@@ -27,33 +29,27 @@ export const ChatApp = () => {
   const [newMessage, setNewMessage] = useState("");
 
   const listItems = messageList.map((message) => {
-    return <li key={Math.random()}>{message}</li>;
+    return <Message key={Math.random()} value={message} />;
   });
 
-  const handleNewMessage = (e) => {
+  const handleTypingMessage = (e) => {
     setNewMessage(e.target.value);
   };
 
   const handleMessageSend = (e) => {
     e.preventDefault();
     socket.emit("newMessage", newMessage);
-
-    // setMessageList([...messageList, newMessage]);
     setNewMessage("");
   };
 
-  // useEffect(() => {
-  //   socket.on("chat message");
-  // }, []);
-
   return (
     <div>
-      <ul>{listItems}</ul>
+      <div>{listItems}</div>
       <form onSubmit={handleMessageSend}>
         <input
           type="text"
           placeholder="message"
-          onChange={handleNewMessage}
+          onChange={handleTypingMessage}
           value={newMessage}
         />
         <button onClick={handleMessageSend}>Send</button>
