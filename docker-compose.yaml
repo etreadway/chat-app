@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  client:
+    build: ./client
+    volumes:
+      - './client:/app'
+      - '/app/node_modules'
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - api
+
+  api:
+    build: ./api
+    volumes:
+      - "./api:/app"
+    ports:
+      - "5001:5001"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_ROOT_PASSWORD: example
+      POSTGRES_DATABASE: users
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test1234
+    ports:
+      - "5002:5002"
+    volumes:
+      - ./docker/data/db:/var/lib/postgres

@@ -1,6 +1,5 @@
 {
   "dependencies": {
-
     "express": "^4.17.1",
     "socket.io": "^4.2.0"
   },
@@ -22,5 +21,4 @@
   },
   "homepage": "https://github.com/etreadway/chat-app#readme",
   "description": ""
-
 }
