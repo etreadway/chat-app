@@ -12,10 +12,7 @@ export const ChatApp = () => {
 
   const [incoming, setIncoming] = useState("");
 
-  const [messageList, setMessageList] = useState([
-    "This is a message",
-    "This is another message",
-  ]);
+  const [messageList, setMessageList] = useState([]);
 
   const [newMessage, setNewMessage] = useState("");
 
@@ -76,6 +73,7 @@ export const ChatApp = () => {
       <button value="general" onClick={handleJoin}>
         general
       </button>
+      <h1>Welcome To Room: {currentRoom}</h1>
       <div>{listItems}</div>
       <form onSubmit={handleMessageSend}>
         <input
