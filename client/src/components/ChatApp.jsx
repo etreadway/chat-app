@@ -8,6 +8,7 @@ const socket = io("http://localhost:5001");
 
 export const ChatApp = () => {
   // const socket = io("http://localhost:5001");
+  const [currentRoom, setCurrentRoom] = useState("general");
 
   const [incoming, setIncoming] = useState("");
 
@@ -16,14 +17,10 @@ export const ChatApp = () => {
     "This is another message",
   ]);
 
+  const [newMessage, setNewMessage] = useState("");
+
   socket.on("incoming", (stuff) => {
     setIncoming(stuff);
-    // setMessageList([...messageList, stuff]);
-  });
-
-  socket.on("hello to room", (msg) => {
-    console.log(msg.id, msg.message);
-    setIncoming(msg);
   });
 
   useEffect(() => {
@@ -33,8 +30,6 @@ export const ChatApp = () => {
       "Message Sent";
     };
   }, [incoming]);
-
-  const [newMessage, setNewMessage] = useState("");
 
   const listItems = messageList.map((message) => {
     return <Message key={Math.random()} value={message} />;
@@ -46,22 +41,41 @@ export const ChatApp = () => {
 
   const handleMessageSend = (e) => {
     e.preventDefault();
-    socket.emit("newMessage", newMessage);
+    socket.emit("New Message", newMessage, currentRoom);
     setNewMessage("");
   };
 
-  const handleJoin = () => {
-    socket.emit("join room 1");
+  const handleJoin = (e) => {
+    setCurrentRoom(e.target.value);
+    socket.emit("join room", e.target.value);
   };
 
-  const handleSendToRoom = () => {
+  // useEffect(() => {
+  //   setMessageList([...messageList, incoming.message]);
+
+  //   return () => {
+  //     "Message Sent";
+  //   };
+  // }, [incoming]);
+
+  const handleLogCurrentRoom = () => {
     socket.emit("too room one");
   };
 
   return (
     <div>
-      <button onClick={handleJoin}>Join room</button>
-      <button onClick={handleSendToRoom}>send to room</button>
+      <button value="1" onClick={handleJoin}>
+        Join room 1
+      </button>
+      <button value="2" onClick={handleJoin}>
+        Join room 2
+      </button>
+      <button value="3" onClick={handleJoin}>
+        Join room 3
+      </button>
+      <button value="general" onClick={handleJoin}>
+        general
+      </button>
       <div>{listItems}</div>
       <form onSubmit={handleMessageSend}>
         <input

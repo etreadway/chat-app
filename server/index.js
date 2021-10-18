@@ -14,17 +14,12 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", (socket) => {
+  socket.join("general");
   console.log("A user has connected");
 
-  socket.on("join room 1", () => {
-    socket.join("room 1");
-    console.log("user joined room 1");
-  });
-
-  socket.on("too room one", () => {
-    socket
-      .to("room 1")
-      .emit("hello to room", { id: Math.random(), message: "hello room 1" });
+  socket.on("join room", (room) => {
+    socket.join(room);
+    console.log("user joined room " + room);
   });
 
   socket.on("disconnect", () => {
@@ -33,11 +28,12 @@ io.on("connection", (socket) => {
 
   socket.send("hello from server");
 
-  socket.on("newMessage", (msg) => {
+  socket.on("New Message", (msg, room) => {
     console.log(msg);
-    //use broadcast to send to all but author
+    console.log("From room: " + room);
+
     //id prevents bug with not receiving repeat messages
-    socket.broadcast.emit("incoming", { id: Math.random(), message: msg });
+    socket.to(room).emit("incoming", { id: Math.random(), message: msg });
   });
 });
 
