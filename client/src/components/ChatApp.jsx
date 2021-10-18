@@ -21,6 +21,11 @@ export const ChatApp = () => {
     // setMessageList([...messageList, stuff]);
   });
 
+  socket.on("hello to room", (msg) => {
+    console.log(msg.id, msg.message);
+    setIncoming(msg);
+  });
+
   useEffect(() => {
     setMessageList([...messageList, incoming.message]);
 
@@ -45,8 +50,18 @@ export const ChatApp = () => {
     setNewMessage("");
   };
 
+  const handleJoin = () => {
+    socket.emit("join room 1");
+  };
+
+  const handleSendToRoom = () => {
+    socket.emit("too room one");
+  };
+
   return (
     <div>
+      <button onClick={handleJoin}>Join room</button>
+      <button onClick={handleSendToRoom}>send to room</button>
       <div>{listItems}</div>
       <form onSubmit={handleMessageSend}>
         <input
