@@ -20,7 +20,7 @@ export const ChatApp = () => {
   });
 
   useEffect(() => {
-    setMessageList([...messageList, incoming.message]);
+    setMessageList((messageList) => [...messageList, incoming.message]);
 
     return () => {
       "Message Sent";
