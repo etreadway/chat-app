@@ -7,7 +7,6 @@ import { Message } from "./Message";
 const socket = io("http://localhost:5001");
 
 export const ChatApp = () => {
-  // const socket = io("http://localhost:5001");
   const [currentRoom, setCurrentRoom] = useState("general");
 
   const [incoming, setIncoming] = useState("");
@@ -45,18 +44,6 @@ export const ChatApp = () => {
   const handleJoin = (e) => {
     setCurrentRoom(e.target.value);
     socket.emit("join room", e.target.value);
-  };
-
-  // useEffect(() => {
-  //   setMessageList([...messageList, incoming.message]);
-
-  //   return () => {
-  //     "Message Sent";
-  //   };
-  // }, [incoming]);
-
-  const handleLogCurrentRoom = () => {
-    socket.emit("too room one");
   };
 
   return (
