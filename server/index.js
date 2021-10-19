@@ -31,8 +31,6 @@ io.on("connection", (socket) => {
     console.log("User Disconnected");
   });
 
-  socket.send("hello from server");
-
   socket.on("New Message", (msg, room) => {
     console.log(msg);
     console.log("From room: " + room);
