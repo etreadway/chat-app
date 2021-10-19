@@ -42,6 +42,7 @@ export const ChatApp = () => {
   };
 
   const handleJoin = (e) => {
+    socket.emit("leave room", currentRoom);
     setCurrentRoom(e.target.value);
     socket.emit("join room", e.target.value);
   };

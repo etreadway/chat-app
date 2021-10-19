@@ -22,6 +22,11 @@ io.on("connection", (socket) => {
     console.log("user joined room " + room);
   });
 
+  socket.on("leave room", (room) => {
+    socket.leave(room);
+    console.log("user left room " + room);
+  });
+
   socket.on("disconnect", () => {
     console.log("User Disconnected");
   });
