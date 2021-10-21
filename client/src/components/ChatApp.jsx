@@ -20,10 +20,6 @@ export const ChatApp = () => {
     setIncoming(stuff);
   });
 
-  // socket.on("join test", (msg) => {
-  //   console.log(msg);
-  // });
-
   useEffect(() => {
     setMessageList((messageList) => [...messageList, incoming.message]);
 
@@ -42,7 +38,7 @@ export const ChatApp = () => {
 
   const handleMessageSend = (e) => {
     e.preventDefault();
-    socket.emit("New Message", newMessage, currentTopic);
+    socket.emit("new message", newMessage, currentTopic);
     setNewMessage("");
   };
 

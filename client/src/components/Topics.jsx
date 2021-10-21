@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export const Topics = (props) => {
   const socket = props.socket;
@@ -17,7 +17,7 @@ export const Topics = (props) => {
 
   const handleSubmitTopic = (e) => {
     e.preventDefault();
-    setTopicList([...topicList, newTopic]);
+    socket.emit("POST new topic", newTopic);
     setNewTopic("");
   };
 
@@ -25,9 +25,14 @@ export const Topics = (props) => {
     setNewTopic(e.target.value);
   };
 
-  socket.on("hello", (topicList) => {
-    setTopicList(topicList);
-  });
+  useEffect(() => {
+    socket.on("new topic list", (topic) => {
+      setTopicList(topic);
+    });
+    return () => {
+      socket.off("new topic list");
+    };
+  }, [socket]);
 
   const topicArray = topicList.map((topic) => {
     return (
