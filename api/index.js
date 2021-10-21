@@ -11,6 +11,8 @@ const { v4: uuidv4 } = require("uuid");
 
 const PORT = process.env.port || 5001;
 
+var topicList = ["1", "2", "3", "general", "server"];
+
 app.get("/", (req, res) => {
   res.send("<h1>HEY!!! YOU SHOULDN'T BE HERE!!!</h1>");
 });
@@ -18,6 +20,10 @@ app.get("/", (req, res) => {
 io.on("connection", (socket) => {
   socket.join("general");
   console.log("A user has connected");
+  console.log(socket.id);
+  socket.emit("hello", topicList);
+
+  // socket.to(socket.id).emit("join test", "you have joined socket");
 
   socket.on("join topic", (topic) => {
     socket.join(topic);

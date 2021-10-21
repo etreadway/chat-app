@@ -5,7 +5,7 @@ export const Topics = (props) => {
   const setCurrentTopic = props.setCurrentTopic;
   const currentTopic = props.currentTopic;
 
-  const [topicList, setTopicList] = useState(["1", "2", "3", "general"]);
+  const [topicList, setTopicList] = useState([]);
 
   const [newTopic, setNewTopic] = useState("");
 
@@ -24,6 +24,10 @@ export const Topics = (props) => {
   const handleTypedTopic = (e) => {
     setNewTopic(e.target.value);
   };
+
+  socket.on("hello", (topicList) => {
+    setTopicList(topicList);
+  });
 
   const topicArray = topicList.map((topic) => {
     return (
