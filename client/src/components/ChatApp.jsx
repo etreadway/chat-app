@@ -50,13 +50,13 @@ export const ChatApp = () => {
   return (
     <div>
       <button value="1" onClick={handleJoin}>
-        Join room 1
+        Join topic 1
       </button>
       <button value="2" onClick={handleJoin}>
-        Join room 2
+        Join topic 2
       </button>
       <button value="3" onClick={handleJoin}>
-        Join room 3
+        Join topic 3
       </button>
       <button value="general" onClick={handleJoin}>
         general

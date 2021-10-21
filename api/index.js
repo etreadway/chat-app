@@ -24,21 +24,21 @@ io.on("connection", (socket) => {
     console.log("user joined room " + topic);
   });
 
-  socket.on("leave topic", (room) => {
-    socket.leave(room);
-    console.log("user left room " + room);
+  socket.on("leave topic", (topic) => {
+    socket.leave(topic);
+    console.log("user left room " + topic);
   });
 
   socket.on("disconnect", () => {
     console.log("User Disconnected");
   });
 
-  socket.on("New Message", (msg, room) => {
+  socket.on("New Message", (msg, topic) => {
     console.log(msg);
-    console.log("From room: " + room);
+    console.log("From room: " + topic);
 
     //id prevents bug with not receiving repeat messages
-    socket.to(room).emit("incoming", { id: uuidv4(), message: msg });
+    socket.to(topic).emit("incoming", { id: uuidv4(), message: msg });
   });
 });
 
