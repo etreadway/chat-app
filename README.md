@@ -4,11 +4,11 @@
 
 From the home folder, run the following commands:
 
-For the very first build:
+For the very first build before you run:
 
 - `$ docker-compose build`
 
-Every time after that:
+After you're built the first time, you can run via:
 
 - `$ docker-compose up`
 
