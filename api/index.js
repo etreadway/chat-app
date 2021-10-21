@@ -40,6 +40,10 @@ io.on("connection", (socket) => {
     //id prevents bug with not receiving repeat messages
     socket.to(topic).emit("incoming", { id: uuidv4(), message: msg });
   });
+
+  socket.on("hello from Topics Component", () => {
+    console.log("recieved from topic");
+  });
 });
 
 httpServer.listen(PORT, () => {
