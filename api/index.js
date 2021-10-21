@@ -7,6 +7,8 @@ const io = require("socket.io")(httpServer, {
   cors: { origin: "*", methods: ["GET", "POST"] },
 });
 
+const { v4: uuidv4 } = require("uuid");
+
 const PORT = process.env.port || 5001;
 
 app.get("/", (req, res) => {
@@ -36,7 +38,7 @@ io.on("connection", (socket) => {
     console.log("From room: " + room);
 
     //id prevents bug with not receiving repeat messages
-    socket.to(room).emit("incoming", { id: Math.random(), message: msg });
+    socket.to(room).emit("incoming", { id: uuidv4(), message: msg });
   });
 });
 
