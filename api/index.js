@@ -19,12 +19,12 @@ io.on("connection", (socket) => {
   socket.join("general");
   console.log("A user has connected");
 
-  socket.on("join room", (room) => {
-    socket.join(room);
-    console.log("user joined room " + room);
+  socket.on("join topic", (topic) => {
+    socket.join(topic);
+    console.log("user joined room " + topic);
   });
 
-  socket.on("leave room", (room) => {
+  socket.on("leave topic", (room) => {
     socket.leave(room);
     console.log("user left room " + room);
   });

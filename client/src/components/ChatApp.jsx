@@ -7,7 +7,7 @@ import { Message } from "./Message";
 const socket = io("http://localhost:5001");
 
 export const ChatApp = () => {
-  const [currentRoom, setCurrentRoom] = useState("general");
+  const [currentTopic, setCurrentTopic] = useState("general");
 
   const [incoming, setIncoming] = useState("");
 
@@ -37,14 +37,14 @@ export const ChatApp = () => {
 
   const handleMessageSend = (e) => {
     e.preventDefault();
-    socket.emit("New Message", newMessage, currentRoom);
+    socket.emit("New Message", newMessage, currentTopic);
     setNewMessage("");
   };
 
   const handleJoin = (e) => {
-    socket.emit("leave room", currentRoom);
-    setCurrentRoom(e.target.value);
-    socket.emit("join room", e.target.value);
+    socket.emit("leave topic", currentTopic);
+    setCurrentTopic(e.target.value);
+    socket.emit("join topic", e.target.value);
   };
 
   return (
@@ -61,7 +61,7 @@ export const ChatApp = () => {
       <button value="general" onClick={handleJoin}>
         general
       </button>
-      <h1>Welcome To Room: {currentRoom}</h1>
+      <h1>Welcome To Room: {currentTopic}</h1>
       <div>{listItems}</div>
       <form onSubmit={handleMessageSend}>
         <input
