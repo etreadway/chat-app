@@ -61,7 +61,7 @@ export const ChatApp = () => {
       <button value="general" onClick={handleJoin}>
         general
       </button>
-      <h1>Welcome To Room: {currentTopic}</h1>
+      <h1>Welcome To Topic: {currentTopic}</h1>
       <div>{listItems}</div>
       <form onSubmit={handleMessageSend}>
         <input
