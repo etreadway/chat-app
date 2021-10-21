@@ -19,6 +19,9 @@ export const ChatApp = () => {
   socket.on("incoming", (stuff) => {
     setIncoming(stuff);
   });
+  socket.on("new topic list", (newTopics) => {
+    console.log(newTopics);
+  });
 
   useEffect(() => {
     setMessageList((messageList) => [...messageList, incoming.message]);

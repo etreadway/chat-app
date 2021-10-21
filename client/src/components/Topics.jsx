@@ -7,10 +7,22 @@ export const Topics = (props) => {
 
   const [topicList, setTopicList] = useState(["1", "2", "3", "general"]);
 
+  const [newTopic, setNewTopic] = useState("");
+
   const handleJoin = (e) => {
     socket.emit("leave topic", currentTopic);
     setCurrentTopic(e.target.value);
     socket.emit("join topic", e.target.value);
+  };
+
+  const handleSubmitTopic = (e) => {
+    e.preventDefault();
+    setTopicList([...topicList, newTopic]);
+    setNewTopic("");
+  };
+
+  const handleTypedTopic = (e) => {
+    setNewTopic(e.target.value);
   };
 
   const topicArray = topicList.map((topic) => {
@@ -21,5 +33,13 @@ export const Topics = (props) => {
     );
   });
 
-  return <div>{topicArray}</div>;
+  return (
+    <div>
+      <form onSubmit={handleSubmitTopic}>
+        <input value={newTopic} type="text" onChange={handleTypedTopic} />
+        <button onClick={handleSubmitTopic}>make new topic</button>
+      </form>
+      {topicArray}
+    </div>
+  );
 };
