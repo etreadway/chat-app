@@ -14,19 +14,29 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", (socket) => {
+  socket.join("general");
   console.log("A user has connected");
+
+  socket.on("join room", (room) => {
+    socket.join(room);
+    console.log("user joined room " + room);
+  });
+
+  socket.on("leave room", (room) => {
+    socket.leave(room);
+    console.log("user left room " + room);
+  });
 
   socket.on("disconnect", () => {
     console.log("User Disconnected");
   });
 
-  socket.send("hello from server");
-
-  socket.on("newMessage", (msg) => {
+  socket.on("New Message", (msg, room) => {
     console.log(msg);
-    //use broadcast to send to all but author
+    console.log("From room: " + room);
+
     //id prevents bug with not receiving repeat messages
-    socket.broadcast.emit("incoming", { id: Math.random(), message: msg });
+    socket.to(room).emit("incoming", { id: Math.random(), message: msg });
   });
 });
 

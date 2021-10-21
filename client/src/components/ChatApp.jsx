@@ -7,29 +7,25 @@ import { Message } from "./Message";
 const socket = io("http://localhost:5001");
 
 export const ChatApp = () => {
-  // const socket = io("http://localhost:5001");
+  const [currentRoom, setCurrentRoom] = useState("general");
 
   const [incoming, setIncoming] = useState("");
 
-  const [messageList, setMessageList] = useState([
-    "This is a message",
-    "This is another message",
-  ]);
+  const [messageList, setMessageList] = useState([]);
+
+  const [newMessage, setNewMessage] = useState("");
 
   socket.on("incoming", (stuff) => {
     setIncoming(stuff);
-    // setMessageList([...messageList, stuff]);
   });
 
   useEffect(() => {
-    setMessageList([...messageList, incoming.message]);
+    setMessageList((messageList) => [...messageList, incoming.message]);
 
     return () => {
       "Message Sent";
     };
   }, [incoming]);
-
-  const [newMessage, setNewMessage] = useState("");
 
   const listItems = messageList.map((message) => {
     return <Message key={Math.random()} value={message} />;
@@ -41,12 +37,31 @@ export const ChatApp = () => {
 
   const handleMessageSend = (e) => {
     e.preventDefault();
-    socket.emit("newMessage", newMessage);
+    socket.emit("New Message", newMessage, currentRoom);
     setNewMessage("");
+  };
+
+  const handleJoin = (e) => {
+    socket.emit("leave room", currentRoom);
+    setCurrentRoom(e.target.value);
+    socket.emit("join room", e.target.value);
   };
 
   return (
     <div>
+      <button value="1" onClick={handleJoin}>
+        Join room 1
+      </button>
+      <button value="2" onClick={handleJoin}>
+        Join room 2
+      </button>
+      <button value="3" onClick={handleJoin}>
+        Join room 3
+      </button>
+      <button value="general" onClick={handleJoin}>
+        general
+      </button>
+      <h1>Welcome To Room: {currentRoom}</h1>
       <div>{listItems}</div>
       <form onSubmit={handleMessageSend}>
         <input
