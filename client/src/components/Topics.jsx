@@ -10,15 +10,19 @@ export const Topics = (props) => {
   const [newTopic, setNewTopic] = useState("");
 
   const handleJoin = (e) => {
-    socket.emit("leave topic", currentTopic);
-    setCurrentTopic(e.target.value);
-    socket.emit("join topic", e.target.value);
+    if (currentTopic !== e.target.value) {
+      socket.emit("leave topic", currentTopic);
+      setCurrentTopic(e.target.value);
+      socket.emit("join topic", e.target.value);
+    }
   };
 
   const handleSubmitTopic = (e) => {
     e.preventDefault();
-    socket.emit("POST new topic", newTopic);
-    setNewTopic("");
+    if (newTopic !== "") {
+      socket.emit("POST new topic", newTopic);
+      setNewTopic("");
+    }
   };
 
   const handleTypedTopic = (e) => {

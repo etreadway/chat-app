@@ -28,7 +28,6 @@ io.on("connection", (socket) => {
     topicList = [...topicList, newTopic];
 
     io.emit("new topic list", topicList);
-    // socket.broadcast.emit("new topic list", topicList);
   });
 
   socket.on("join topic", (topic) => {
