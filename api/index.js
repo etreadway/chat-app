@@ -11,34 +11,42 @@ const { v4: uuidv4 } = require("uuid");
 
 const PORT = process.env.port || 5001;
 
+// this is the current topic list. It needs to be put somewhere better.
+var topicList = ["1", "2", "3", "general", "server"];
+
 app.get("/", (req, res) => {
   res.send("<h1>HEY!!! YOU SHOULDN'T BE HERE!!!</h1>");
 });
 
 io.on("connection", (socket) => {
   socket.join("general");
-  console.log("A user has connected");
+  console.log("User [" + socket.id + "] has connected");
 
-  socket.on("join room", (room) => {
-    socket.join(room);
-    console.log("user joined room " + room);
+  socket.emit("new topic list", topicList);
+
+  socket.on("POST new topic", (newTopic) => {
+    topicList = [...topicList, newTopic];
+
+    io.emit("new topic list", topicList);
+    // socket.broadcast.emit("new topic list", topicList);
   });
 
-  socket.on("leave room", (room) => {
-    socket.leave(room);
-    console.log("user left room " + room);
+  socket.on("join topic", (topic) => {
+    socket.join(topic);
+    console.log("user joined room " + topic);
+  });
+
+  socket.on("leave topic", (topic) => {
+    socket.leave(topic);
+    console.log("user left room " + topic);
   });
 
   socket.on("disconnect", () => {
     console.log("User Disconnected");
   });
 
-  socket.on("New Message", (msg, room) => {
-    console.log(msg);
-    console.log("From room: " + room);
-
-    //id prevents bug with not receiving repeat messages
-    socket.to(room).emit("incoming", { id: uuidv4(), message: msg });
+  socket.on("new message", (msg, topic) => {
+    socket.to(topic).emit("incoming", { id: uuidv4(), message: msg });
   });
 });
 
