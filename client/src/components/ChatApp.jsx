@@ -61,19 +61,18 @@ export const ChatApp = () => {
             currentTopic={currentTopic}
           />
           <h1>Welcome To Topic: {currentTopic}</h1>
+          <div>{listItems}</div>
+          <form onSubmit={handleMessageSend}>
+            <input
+              type="text"
+              placeholder="message"
+              onChange={handleTypingMessage}
+              value={newMessage}
+            />
+            <button onClick={handleMessageSend}>Send</button>
+          </form>
         </div>
       )}
-
-      <div>{listItems}</div>
-      <form onSubmit={handleMessageSend}>
-        <input
-          type="text"
-          placeholder="message"
-          onChange={handleTypingMessage}
-          value={newMessage}
-        />
-        <button onClick={handleMessageSend}>Send</button>
-      </form>
     </div>
   );
 };

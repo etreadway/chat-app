@@ -2,7 +2,6 @@ import { useState } from "react";
 
 export const UserName = (props) => {
   const setUserName = props.value.setUserName;
-  const userName = props.value.userName;
 
   const [newUserName, setNewUserName] = useState("");
 

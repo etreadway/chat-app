@@ -24,6 +24,11 @@ io.on("connection", (socket) => {
 
   socket.emit("new topic list", topicList);
 
+  socket.on("request topics", () => {
+    console.log(socket.nickname + " requested topics");
+    socket.emit("new topic list", topicList);
+  });
+
   socket.on("POST new topic", (newTopic) => {
     topicList = [...topicList, newTopic];
 
@@ -45,13 +50,11 @@ io.on("connection", (socket) => {
   });
 
   socket.on("new message", (msg, topic) => {
-    socket
-      .to(topic)
-      .emit("incoming", {
-        id: uuidv4(),
-        userName: socket.nickname,
-        message: msg,
-      });
+    socket.to(topic).emit("incoming", {
+      id: uuidv4(),
+      userName: socket.nickname,
+      message: msg,
+    });
   });
 
   socket.on("disconnect", () => {
