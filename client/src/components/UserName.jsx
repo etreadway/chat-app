@@ -17,7 +17,7 @@ export const UserName = (props) => {
 
   return (
     <div>
-      <p>Hello {userName}</p>
+      <p>Choose A Username</p>
       <form onSubmit={handleSubmit}>
         <input
           type="text"

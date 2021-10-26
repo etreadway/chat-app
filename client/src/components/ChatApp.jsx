@@ -51,14 +51,19 @@ export const ChatApp = () => {
 
   return (
     <div>
-      <UserName value={{ userName, setUserName }} />
-      <Topics
-        socket={socket}
-        setCurrentTopic={setCurrentTopic}
-        currentTopic={currentTopic}
-      />
+      {!userName && <UserName value={{ userName, setUserName }} />}
+      {userName && (
+        <div>
+          <p>Hello {userName}</p>
+          <Topics
+            socket={socket}
+            setCurrentTopic={setCurrentTopic}
+            currentTopic={currentTopic}
+          />
+          <h1>Welcome To Topic: {currentTopic}</h1>
+        </div>
+      )}
 
-      <h1>Welcome To Topic: {currentTopic}</h1>
       <div>{listItems}</div>
       <form onSubmit={handleMessageSend}>
         <input
