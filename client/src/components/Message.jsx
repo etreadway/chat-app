@@ -1,3 +1,14 @@
 export const Message = (props) => {
-  return <p>{props.value.message}</p>;
+  const msg = props.value.message;
+  const userName = props.value.userName;
+
+  if (!userName) {
+    return <p>{msg}</p>;
+  } else {
+    return (
+      <p>
+        {userName}: {msg}
+      </p>
+    );
+  }
 };
