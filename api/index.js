@@ -24,10 +24,19 @@ io.on("connection", (socket) => {
 
   socket.emit("new topic list", topicList);
 
+  socket.on("request topics", () => {
+    console.log(socket.nickname + " requested topics");
+    socket.emit("new topic list", topicList);
+  });
+
   socket.on("POST new topic", (newTopic) => {
     topicList = [...topicList, newTopic];
 
     io.emit("new topic list", topicList);
+  });
+
+  socket.on("sending username", (userName) => {
+    socket.nickname = userName;
   });
 
   socket.on("join topic", (topic) => {
@@ -40,12 +49,16 @@ io.on("connection", (socket) => {
     console.log("user left room " + topic);
   });
 
-  socket.on("disconnect", () => {
-    console.log("User Disconnected");
+  socket.on("new message", (msg, topic) => {
+    socket.to(topic).emit("incoming", {
+      id: uuidv4(),
+      userName: socket.nickname,
+      message: msg,
+    });
   });
 
-  socket.on("new message", (msg, topic) => {
-    socket.to(topic).emit("incoming", { id: uuidv4(), message: msg });
+  socket.on("disconnect", () => {
+    console.log("User Disconnected");
   });
 });
 

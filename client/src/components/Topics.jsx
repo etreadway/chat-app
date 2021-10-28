@@ -9,6 +9,10 @@ export const Topics = (props) => {
 
   const [newTopic, setNewTopic] = useState("");
 
+  useEffect(() => {
+    socket.emit("request topics");
+  }, [socket]);
+
   const handleJoin = (e) => {
     if (currentTopic !== e.target.value) {
       socket.emit("leave topic", currentTopic);

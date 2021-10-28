@@ -4,6 +4,7 @@ import io from "socket.io-client";
 
 import { Message } from "./Message";
 import { Topics } from "./Topics";
+import { UserName } from "./UserName";
 
 const socket = io("http://localhost:5001");
 
@@ -16,17 +17,23 @@ export const ChatApp = () => {
 
   const [newMessage, setNewMessage] = useState("");
 
+  const [userName, setUserName] = useState("");
+
   socket.on("incoming", (stuff) => {
     setIncoming(stuff);
   });
 
   useEffect(() => {
-    setMessageList((messageList) => [...messageList, incoming.message]);
+    setMessageList((messageList) => [...messageList, incoming]);
 
     return () => {
       "Message Sent";
     };
   }, [incoming]);
+
+  useEffect(() => {
+    socket.emit("sending username", userName);
+  }, [userName]);
 
   const listItems = messageList.map((message) => {
     return <Message key={Math.random()} value={message} />;
@@ -44,23 +51,28 @@ export const ChatApp = () => {
 
   return (
     <div>
-      <Topics
-        socket={socket}
-        setCurrentTopic={setCurrentTopic}
-        currentTopic={currentTopic}
-      />
-
-      <h1>Welcome To Topic: {currentTopic}</h1>
-      <div>{listItems}</div>
-      <form onSubmit={handleMessageSend}>
-        <input
-          type="text"
-          placeholder="message"
-          onChange={handleTypingMessage}
-          value={newMessage}
-        />
-        <button onClick={handleMessageSend}>Send</button>
-      </form>
+      {!userName && <UserName value={{ userName, setUserName }} />}
+      {userName && (
+        <div>
+          <p>Hello {userName}</p>
+          <Topics
+            socket={socket}
+            setCurrentTopic={setCurrentTopic}
+            currentTopic={currentTopic}
+          />
+          <h1>Welcome To Topic: {currentTopic}</h1>
+          <div>{listItems}</div>
+          <form onSubmit={handleMessageSend}>
+            <input
+              type="text"
+              placeholder="message"
+              onChange={handleTypingMessage}
+              value={newMessage}
+            />
+            <button onClick={handleMessageSend}>Send</button>
+          </form>
+        </div>
+      )}
     </div>
   );
 };
